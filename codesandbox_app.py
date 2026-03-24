@@ -15,6 +15,9 @@ Environment variables (set in CodeSandbox Secrets or create a .env file):
 import os
 import sys
 
+# Ensure the project root is on sys.path regardless of where Python is launched from
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
 # Resolve PORT first – CodeSandbox may inject one via the PORT env var
 PORT = int(os.environ.get("PORT", 3000))
 
