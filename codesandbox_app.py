@@ -160,9 +160,9 @@ body{font-family:'Segoe UI',Tahoma,Verdana,sans-serif;background:var(--bg);color
   <div class="msg bot">
     <div class="avatar bot">🤖</div>
     <div class="bubble">
-      <strong>Hi Ram! 👋 Welcome to CineBot, powered by Claude on AWS Bedrock.</strong><br><br>
-      I see you have <strong>1000 ICICI Bank reward points</strong> ready to use on your next booking!<br><br>
-      I only show <strong>Hindi movies released on/after 12-Mar-2026</strong>. Ask me anything — try one of the quick actions below or type your own request.
+      <strong>Hi Ram! 👋 I'm CineBot, your personal movie booking assistant.</strong><br><br>
+      I can see you have <strong>1000 ICICI Bank reward points</strong> — let's put them to good use!<br><br>
+      Just tell me what you'd like to watch and when. I'll check your preferences, recommend the best theatre &amp; seats, and handle everything from booking to payment. 🎬
     </div>
   </div>
 </div>
@@ -170,16 +170,14 @@ body{font-family:'Segoe UI',Tahoma,Verdana,sans-serif;background:var(--bg);color
 <!-- Input -->
 <div class="input-bar">
   <div class="quick-btns">
-    <button class="qb" onclick="qs('Show me all Hindi movies releasing from March 2026')">🎬 All Movies</button>
-    <button class="qb" onclick="qs('Show top-rated action Hindi movies')">⭐ Top Action</button>
-    <button class="qb" onclick="qs('Book 2 recliner seats for Dhurandhar next Sunday afternoon at PVR')">🎥 Book Dhurandhar</button>
-    <button class="qb" onclick="qs('What is the best way to pay using my ICICI credit card points?')">💳 Payment Options</button>
-    <button class="qb" onclick="qs('Compare my current card points vs a better credit card offer for my booking')">🏦 Card Comparison</button>
-    <button class="qb" onclick="qs('Show my booking history for user_ram_001')">📋 My Bookings</button>
+    <button class="qb" onclick="hint('I want to book 2 tickets for Dhurandhar this Sunday afternoon')">🎥 Book Dhurandhar</button>
+    <button class="qb" onclick="hint('Show me all Hindi movies available this week')">🎬 What\'s Playing</button>
+    <button class="qb" onclick="hint('Show my past bookings')">📋 My Bookings</button>
+    <button class="qb" onclick="hint('What Hindi movies are releasing in action genre?')">⭐ Action Movies</button>
   </div>
   <div class="row">
     <input type="text" id="inp"
-      placeholder="e.g. Book 2 tickets for Dhurandhar next Sunday at PVR Andheri…"
+      placeholder="e.g. I want to book 2 tickets for Dhurandhar this Sunday afternoon…"
       autocomplete="off"/>
     <button class="send" id="sendBtn" onclick="send()">➤</button>
   </div>
@@ -192,7 +190,16 @@ marked.setOptions({breaks:true, gfm:true});
 const USER_ID = 'user_ram_001';
 const chat    = document.getElementById('chatArea');
 
-function qs(t){document.getElementById('inp').value=t; send();}
+// hint: fill the input box but do NOT auto-send — user types and presses Send
+function hint(t){
+  const inp=document.getElementById('inp');
+  inp.value=t;
+  inp.focus();
+  // place cursor at end
+  inp.setSelectionRange(t.length, t.length);
+}
+// qs kept for backward compat but now same as hint
+function qs(t){hint(t);}
 
 function send(){
   const inp=document.getElementById('inp');
